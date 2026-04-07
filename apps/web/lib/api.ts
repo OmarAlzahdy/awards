@@ -1,10 +1,21 @@
-import type { Award, AwardsResponse, ImportSummary, LoginResponse, StatsSummary, Winner } from "./types";
+import type {
+  Award,
+  AwardsResponse,
+  ImportSummary,
+  LoginResponse,
+  StatsSummary,
+  Winner,
+} from "./types";
 
 const FALLBACK_API_URL = "http://127.0.0.1:8000";
 
 function resolveApiBaseUrl() {
   if (typeof window === "undefined") {
-    return process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE_URL || FALLBACK_API_URL;
+    return (
+      process.env.API_BASE_URL ||
+      process.env.NEXT_PUBLIC_API_BASE_URL ||
+      FALLBACK_API_URL
+    );
   }
 
   return process.env.NEXT_PUBLIC_API_BASE_URL || FALLBACK_API_URL;
@@ -23,7 +34,10 @@ async function parseJson<T>(response: Response): Promise<T> {
   return (await response.json()) as T;
 }
 
-export async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
+export async function apiFetch<T>(
+  path: string,
+  init?: RequestInit,
+): Promise<T> {
   const baseUrl = resolveApiBaseUrl();
   const response = await fetch(`${baseUrl}${path}`, {
     ...init,
@@ -52,9 +66,17 @@ export async function fetchAwards(params?: {
   const query = search.toString();
 
   try {
-    return await apiFetch<AwardsResponse>(`/v1/awards${query ? `?${query}` : ""}`);
+    return await apiFetch<AwardsResponse>(
+      `/v1/awards${query ? `?${query}` : ""}`,
+    );
   } catch {
-    return { items: [], page: 1, page_size: params?.pageSize ?? 12, total: 0, total_pages: 1 };
+    return {
+      items: [],
+      page: 1,
+      page_size: params?.pageSize ?? 12,
+      total: 0,
+      total_pages: 1,
+    };
   }
 }
 
@@ -69,6 +91,45 @@ export async function fetchAward(awardId: number): Promise<Award | null> {
 export async function fetchAwardWinners(awardId: number): Promise<Winner[]> {
   try {
     return await apiFetch<Winner[]>(`/v1/awards/${awardId}/winners`);
+  } catch {
+    return [];
+  }
+}
+
+export async function fetchFeaturedWinnersByCountry(
+  country: string,
+  limit: number = 12,
+): Promise<Array<Winner & { awardName: string; awardId: number }>> {
+  try {
+    // Fetch a larger set of ALL awards to find winners from the specified country
+    const awards = await fetchAwards({ pageSize: 100 });
+    const featuredWinners: Array<
+      Winner & { awardName: string; awardId: number }
+    > = [];
+
+    // Fetch winners for each award and collect those from the target country
+    for (const award of awards.items) {
+      if (featuredWinners.length >= limit) break;
+      const winners = await fetchAwardWinners(award.id);
+      for (const winner of winners) {
+        if (featuredWinners.length >= limit) break;
+        // Check if winner's nationality/location matches the country search
+        if (
+          winner.nationality_or_location &&
+          winner.nationality_or_location
+            .toLowerCase()
+            .includes(country.toLowerCase())
+        ) {
+          featuredWinners.push({
+            ...winner,
+            awardName: award.name,
+            awardId: award.id,
+          });
+        }
+      }
+    }
+
+    return featuredWinners;
   } catch {
     return [];
   }
@@ -89,7 +150,10 @@ export async function fetchSummary(): Promise<StatsSummary> {
   }
 }
 
-export async function loginAdmin(username: string, password: string): Promise<LoginResponse> {
+export async function loginAdmin(
+  username: string,
+  password: string,
+): Promise<LoginResponse> {
   return apiFetch<LoginResponse>("/v1/auth/login", {
     method: "POST",
     body: JSON.stringify({ username, password }),
@@ -101,16 +165,22 @@ export async function saveAward(
   payload: Partial<Award> & { name: string },
   awardId?: number,
 ): Promise<Award> {
-  return apiFetch<Award>(awardId ? `/v1/admin/awards/${awardId}` : "/v1/admin/awards", {
-    method: awardId ? "PUT" : "POST",
-    body: JSON.stringify(payload),
-    headers: {
-      Authorization: `Bearer ${token}`,
+  return apiFetch<Award>(
+    awardId ? `/v1/admin/awards/${awardId}` : "/v1/admin/awards",
+    {
+      method: awardId ? "PUT" : "POST",
+      body: JSON.stringify(payload),
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     },
-  });
+  );
 }
 
-export async function deleteAward(token: string, awardId: number): Promise<void> {
+export async function deleteAward(
+  token: string,
+  awardId: number,
+): Promise<void> {
   await apiFetch<{ ok: boolean }>(`/v1/admin/awards/${awardId}`, {
     method: "DELETE",
     headers: { Authorization: `Bearer ${token}` },
@@ -129,23 +199,32 @@ export async function saveWinner(
   },
   winnerId?: number,
 ): Promise<Winner> {
-  return apiFetch<Winner>(winnerId ? `/v1/admin/winners/${winnerId}` : "/v1/admin/winners", {
-    method: winnerId ? "PUT" : "POST",
-    body: JSON.stringify(payload),
-    headers: {
-      Authorization: `Bearer ${token}`,
+  return apiFetch<Winner>(
+    winnerId ? `/v1/admin/winners/${winnerId}` : "/v1/admin/winners",
+    {
+      method: winnerId ? "PUT" : "POST",
+      body: JSON.stringify(payload),
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     },
-  });
+  );
 }
 
-export async function deleteWinner(token: string, winnerId: number): Promise<void> {
+export async function deleteWinner(
+  token: string,
+  winnerId: number,
+): Promise<void> {
   await apiFetch<{ ok: boolean }>(`/v1/admin/winners/${winnerId}`, {
     method: "DELETE",
     headers: { Authorization: `Bearer ${token}` },
   });
 }
 
-export async function importWorkbook(token: string, file: File): Promise<ImportSummary> {
+export async function importWorkbook(
+  token: string,
+  file: File,
+): Promise<ImportSummary> {
   const formData = new FormData();
   formData.append("file", file);
   const response = await fetch(`${resolveApiBaseUrl()}/v1/admin/import/excel`, {
