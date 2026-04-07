@@ -1,8 +1,19 @@
 from __future__ import annotations
 
+import re
+
 from fastapi.testclient import TestClient
 
 from app.main import create_app
+
+EGYPTIAN_NATIONALITIES = {"\u0645\u0635\u0631\u064a", "\u0645\u0635\u0631\u064a\u0629"}
+
+
+def _cycle_year(label: str | None) -> int:
+    if not label:
+        return -1
+    match = re.search(r"(19|20)\d{2}", label)
+    return int(match.group(0)) if match else -1
 
 
 def _admin_token(client: TestClient) -> str:
@@ -30,6 +41,28 @@ def test_award_detail_and_winners(client: TestClient) -> None:
     assert winners.status_code == 200
     assert detail.json()["winner_count"] == len(winners.json())
     assert len(winners.json()) >= 1
+
+
+def test_featured_winners_endpoint_returns_ranked_egyptian_winners(client: TestClient) -> None:
+    response = client.get(
+        "/v1/winners/featured",
+        params=[
+            ("nationality", "\u0645\u0635\u0631\u064a"),
+            ("nationality", "\u0645\u0635\u0631\u064a\u0629"),
+            ("limit", "6"),
+        ],
+    )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert len(payload) == 6
+    assert all(item["nationality_or_location"] in EGYPTIAN_NATIONALITIES for item in payload)
+    assert all(item["award_name"] for item in payload)
+
+    expected = sorted(payload, key=lambda item: item["id"])
+    expected = sorted(expected, key=lambda item: item["cycle_label"] or "", reverse=True)
+    expected = sorted(expected, key=lambda item: _cycle_year(item["cycle_label"]), reverse=True)
+    assert payload == expected
 
 
 def test_stats_summary(client: TestClient) -> None:

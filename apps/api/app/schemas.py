@@ -30,6 +30,11 @@ class WinnerRead(WinnerBase):
     updated_at: datetime
 
 
+class FeaturedWinnerRead(WinnerRead):
+    award_name: str
+    award_discipline: str | None = None
+
+
 class AwardBase(BaseModel):
     name: str
     summary: str | None = None

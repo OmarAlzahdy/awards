@@ -28,6 +28,7 @@ from .schemas import (
     AwardRead,
     AwardsListResponse,
     AwardUpdate,
+    FeaturedWinnerRead,
     ImportSummary,
     LoginRequest,
     LoginResponse,
@@ -37,6 +38,9 @@ from .schemas import (
     WinnerRead,
     WinnerUpdate,
 )
+
+CYCLE_YEAR_PATTERN = re.compile(r"(19|20)\d{2}")
+DEFAULT_EGYPTIAN_NATIONALITIES = ["\u0645\u0635\u0631\u064a", "\u0645\u0635\u0631\u064a\u0629"]
 
 
 def winner_count_subquery():
@@ -101,6 +105,61 @@ def rebuild_search_text(award: Award) -> str:
         award.authority_name,
         award.authority_type,
     )
+
+
+def extract_cycle_year(cycle_label: str | None) -> int:
+    if not cycle_label:
+        return -1
+    match = CYCLE_YEAR_PATTERN.search(cycle_label)
+    return int(match.group(0)) if match else -1
+
+
+def serialize_featured_winner(
+    winner: Winner,
+    award_name: str,
+    award_discipline: str | None,
+) -> FeaturedWinnerRead:
+    return FeaturedWinnerRead.model_validate(
+        {
+            "id": winner.id,
+            "award_id": winner.award_id,
+            "cycle_label": winner.cycle_label,
+            "winner_name": winner.winner_name,
+            "nationality_or_location": winner.nationality_or_location,
+            "summary": winner.summary,
+            "discipline": winner.discipline,
+            "created_at": winner.created_at,
+            "updated_at": winner.updated_at,
+            "award_name": award_name,
+            "award_discipline": award_discipline,
+        }
+    )
+
+
+def list_featured_winners_for_nationalities(
+    session: Session,
+    nationalities: list[str],
+    limit: int,
+) -> list[FeaturedWinnerRead]:
+    if not nationalities:
+        return []
+
+    rows = list(
+        session.execute(
+            select(Winner, Award.name, Award.discipline)
+            .join(Award, Award.id == Winner.award_id)
+            .where(Winner.nationality_or_location.in_(nationalities))
+        )
+    )
+
+    rows.sort(key=lambda row: row[0].id)
+    rows.sort(key=lambda row: row[0].cycle_label or "", reverse=True)
+    rows.sort(key=lambda row: extract_cycle_year(row[0].cycle_label), reverse=True)
+
+    return [
+        serialize_featured_winner(winner, award_name, award_discipline)
+        for winner, award_name, award_discipline in rows[:limit]
+    ]
 
 
 def create_app(settings: Settings | None = None) -> FastAPI:
@@ -189,6 +248,16 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             .order_by(Winner.cycle_label.desc().nullslast(), Winner.winner_name.asc())
         ).all()
         return [WinnerRead.model_validate(winner) for winner in winners]
+
+    @app.get("/v1/winners/featured", response_model=list[FeaturedWinnerRead])
+    def get_featured_winners(
+        nationality: list[str] | None = Query(default=None),
+        limit: int = Query(default=6, ge=1, le=100),
+        session: Session = Depends(get_session),
+    ) -> list[FeaturedWinnerRead]:
+        selected_nationalities = nationality or DEFAULT_EGYPTIAN_NATIONALITIES
+        cleaned_nationalities = [value.strip() for value in selected_nationalities if value.strip()]
+        return list_featured_winners_for_nationalities(session, cleaned_nationalities, limit)
 
     @app.get("/v1/stats/summary", response_model=StatsSummary)
     def get_stats(
