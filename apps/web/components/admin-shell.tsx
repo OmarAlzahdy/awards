@@ -46,18 +46,30 @@ type AdminShellProps = {
 
 export function AdminShell({ initialAwards, summary }: AdminShellProps) {
   const [token, setToken] = useState("");
-  const [loginState, setLoginState] = useState({ username: "", password: "", error: "", loading: false });
+  const [loginState, setLoginState] = useState({
+    username: "",
+    password: "",
+    error: "",
+    loading: false,
+  });
   const [awards, setAwards] = useState(initialAwards);
-  const [selectedAwardId, setSelectedAwardId] = useState<number | "new">(initialAwards[0]?.id ?? "new");
-  const [awardForm, setAwardForm] = useState<Record<string, string>>(emptyAwardForm);
-  const [winnerForm, setWinnerForm] = useState<Record<string, string>>(emptyWinnerForm);
+  const [selectedAwardId, setSelectedAwardId] = useState<number | "new">(
+    initialAwards[0]?.id ?? "new",
+  );
+  const [awardForm, setAwardForm] =
+    useState<Record<string, string>>(emptyAwardForm);
+  const [winnerForm, setWinnerForm] =
+    useState<Record<string, string>>(emptyWinnerForm);
   const [editingWinnerId, setEditingWinnerId] = useState<number | null>(null);
   const [winners, setWinners] = useState<Winner[]>([]);
   const [status, setStatus] = useState("");
-  const [importSummary, setImportSummary] = useState<ImportSummary | null>(null);
+  const [importSummary, setImportSummary] = useState<ImportSummary | null>(
+    null,
+  );
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-  const selectedAward = awards.find((award) => award.id === selectedAwardId) || null;
+  const selectedAward =
+    awards.find((award) => award.id === selectedAwardId) || null;
 
   useEffect(() => {
     const storedToken = window.localStorage.getItem(STORAGE_KEY);
@@ -79,7 +91,9 @@ export function AdminShell({ initialAwards, summary }: AdminShellProps) {
       summary: selectedAward.summary || "",
       supervising_body: selectedAward.supervising_body || "",
       prize_value: selectedAward.prize_value || "",
-      year_established: selectedAward.year_established ? String(selectedAward.year_established) : "",
+      year_established: selectedAward.year_established
+        ? String(selectedAward.year_established)
+        : "",
       country: selectedAward.country || "",
       discipline: selectedAward.discipline || "",
       notes: selectedAward.notes || "",
@@ -100,7 +114,10 @@ export function AdminShell({ initialAwards, summary }: AdminShellProps) {
     event.preventDefault();
     setLoginState((current) => ({ ...current, loading: true, error: "" }));
     try {
-      const response = await loginAdmin(loginState.username, loginState.password);
+      const response = await loginAdmin(
+        loginState.username,
+        loginState.password,
+      );
       window.localStorage.setItem(STORAGE_KEY, response.token);
       setToken(response.token);
       setStatus("تم تسجيل الدخول بنجاح.");
@@ -126,7 +143,9 @@ export function AdminShell({ initialAwards, summary }: AdminShellProps) {
       summary: awardForm.summary || null,
       supervising_body: awardForm.supervising_body || null,
       prize_value: awardForm.prize_value || null,
-      year_established: awardForm.year_established ? Number(awardForm.year_established) : null,
+      year_established: awardForm.year_established
+        ? Number(awardForm.year_established)
+        : null,
       country: awardForm.country || null,
       discipline: awardForm.discipline || null,
       notes: awardForm.notes || null,
@@ -135,7 +154,11 @@ export function AdminShell({ initialAwards, summary }: AdminShellProps) {
       authority_type: awardForm.authority_type || null,
     };
 
-    const saved = await saveAward(token, payload, selectedAwardId === "new" ? undefined : selectedAwardId);
+    const saved = await saveAward(
+      token,
+      payload,
+      selectedAwardId === "new" ? undefined : selectedAwardId,
+    );
     await refreshAwards();
     setSelectedAwardId(saved.id);
     setStatus("تم حفظ بيانات الجائزة.");
@@ -199,12 +222,16 @@ export function AdminShell({ initialAwards, summary }: AdminShellProps) {
   }
 
   return (
-    <div className="page-stack">
-      <section className="hero-panel admin-panel">
-        <div className="hero-copy">
-          <span className="eyebrow">لوحة الإدارة</span>
-          <h1>إدارة بيانات الجوائز والفائزين.</h1>
-          <p>
+    <div className="grid gap-6">
+      <section className="rounded-26 border border-border bg-surface p-8 shadow-card backdrop-blur-2xl grid gap-5.5 grid-cols-1 overflow-hidden">
+        <div className="grid gap-3 rounded-26 bg-white-55 p-6">
+          <span className="text-brand font-display inline-block text-sm tracking-widest">
+            لوحة الإدارة
+          </span>
+          <h1 className="text-clamp font-display font-bold mt-2">
+            إدارة بيانات الجوائز والفائزين.
+          </h1>
+          <p className="text-muted text-base leading-loose">
             {summary.read_only_mode
               ? "هذه النسخة تعمل في وضع القراءة فقط على Vercel. يمكن تسجيل الدخول ومراجعة البيانات، لكن عمليات الكتابة معطلة."
               : "يمكنك هنا إدارة الجوائز، تعديل بياناتها، إضافة الفائزين، أو إعادة الاستيراد من ملف Excel."}
@@ -213,39 +240,66 @@ export function AdminShell({ initialAwards, summary }: AdminShellProps) {
       </section>
 
       {!token ? (
-        <section className="info-card admin-login-card">
-          <h2>تسجيل الدخول</h2>
-          <form className="admin-form" onSubmit={handleLogin}>
-            <label>
+        <section className="mx-auto max-w-lg rounded-26 border border-border bg-surface p-6 shadow-card backdrop-blur-2xl">
+          <h2 className="text-clamp font-display font-bold mt-2">
+            تسجيل الدخول
+          </h2>
+          <form className="grid gap-3.5 mt-4.5" onSubmit={handleLogin}>
+            <label className="grid gap-2 text-muted">
               <span>اسم المستخدم</span>
               <input
+                className="w-full min-h-52 rounded-18 border border-input-border bg-white-92 px-4 outline-none transition-colors focus:border-brand-40"
                 value={loginState.username}
-                onChange={(event) => setLoginState((current) => ({ ...current, username: event.target.value }))}
+                onChange={(event) =>
+                  setLoginState((current) => ({
+                    ...current,
+                    username: event.target.value,
+                  }))
+                }
               />
             </label>
-            <label>
+            <label className="grid gap-2 text-muted">
               <span>كلمة المرور</span>
               <input
                 type="password"
+                className="w-full min-h-52 rounded-18 border border-input-border bg-white-92 px-4 outline-none transition-colors focus:border-brand-40"
                 value={loginState.password}
-                onChange={(event) => setLoginState((current) => ({ ...current, password: event.target.value }))}
+                onChange={(event) =>
+                  setLoginState((current) => ({
+                    ...current,
+                    password: event.target.value,
+                  }))
+                }
               />
             </label>
-            <button className="button-primary" disabled={loginState.loading} type="submit">
+            <button
+              className="button-primary"
+              disabled={loginState.loading}
+              type="submit"
+            >
               {loginState.loading ? "جارٍ التحقق..." : "دخول"}
             </button>
-            {loginState.error ? <p className="status-error">{loginState.error}</p> : null}
+            {loginState.error ? (
+              <p className="rounded-18 px-4 py-3.5 bg-brand-12 text-brand-strong">
+                {loginState.error}
+              </p>
+            ) : null}
           </form>
         </section>
       ) : (
         <>
-          <section className="admin-toolbar">
-            <label>
+          <section className="flex items-center justify-between gap-2.5 rounded-26 border border-border bg-surface p-6 shadow-card backdrop-blur-2xl flex-wrap md:flex-nowrap">
+            <label className="grid gap-2 text-muted flex-1 min-w-80">
               <span>اختر جائزة</span>
               <select
+                className="w-full min-h-52 rounded-18 border border-input-border bg-white-92 px-4 outline-none transition-colors focus:border-brand-40"
                 value={selectedAwardId}
                 onChange={(event) =>
-                  setSelectedAwardId(event.target.value === "new" ? "new" : Number(event.target.value))
+                  setSelectedAwardId(
+                    event.target.value === "new"
+                      ? "new"
+                      : Number(event.target.value),
+                  )
                 }
               >
                 <option value="new">جائزة جديدة</option>
@@ -257,7 +311,7 @@ export function AdminShell({ initialAwards, summary }: AdminShellProps) {
               </select>
             </label>
             <button
-              className="button-secondary"
+              className="button-secondary mt-6 md:mt-0"
               type="button"
               onClick={() => {
                 window.localStorage.removeItem(STORAGE_KEY);
@@ -268,29 +322,47 @@ export function AdminShell({ initialAwards, summary }: AdminShellProps) {
             </button>
           </section>
 
-          <section className="admin-grid">
-            <article className="info-card">
-              <h2>بيانات الجائزة</h2>
-              <form className="admin-form" onSubmit={handleAwardSubmit}>
+          <div className="grid gap-4.5 grid-cols-1 md:grid-cols-[1.1fr_1fr]">
+            <article className="rounded-26 border border-border bg-surface p-6 shadow-card backdrop-blur-2xl">
+              <h2 className="text-clamp font-display font-bold mt-2">
+                بيانات الجائزة
+              </h2>
+              <form
+                className="grid gap-3.5 mt-4.5"
+                onSubmit={handleAwardSubmit}
+              >
                 {Object.entries(awardForm).map(([field, value]) => (
-                  <label key={field}>
+                  <label key={field} className="grid gap-2 text-muted">
                     <span>{field}</span>
                     <input
+                      className="w-full min-h-52 rounded-18 border border-input-border bg-white-92 px-4 outline-none transition-colors focus:border-brand-40 disabled:opacity-50"
                       value={value}
                       onChange={(event) =>
-                        setAwardForm((current) => ({ ...current, [field]: event.target.value }))
+                        setAwardForm((current) => ({
+                          ...current,
+                          [field]: event.target.value,
+                        }))
                       }
-                      disabled={summary.read_only_mode || (field === "id" && selectedAwardId !== "new")}
+                      disabled={
+                        summary.read_only_mode ||
+                        (field === "id" && selectedAwardId !== "new")
+                      }
                     />
                   </label>
                 ))}
-                <div className="card-actions">
-                  <button className="button-primary" disabled={summary.read_only_mode} type="submit">
+                <div className="flex items-center gap-2.5 flex-wrap justify-between mt-2">
+                  <button
+                    className="button-primary"
+                    disabled={summary.read_only_mode}
+                    type="submit"
+                  >
                     حفظ الجائزة
                   </button>
                   <button
                     className="button-secondary"
-                    disabled={summary.read_only_mode || selectedAwardId === "new"}
+                    disabled={
+                      summary.read_only_mode || selectedAwardId === "new"
+                    }
                     onClick={handleAwardDelete}
                     type="button"
                   >
@@ -300,34 +372,54 @@ export function AdminShell({ initialAwards, summary }: AdminShellProps) {
               </form>
             </article>
 
-            <article className="info-card">
-              <h2>الفائزون</h2>
+            <article className="rounded-26 border border-border bg-surface p-6 shadow-card backdrop-blur-2xl">
+              <h2 className="text-clamp font-display font-bold mt-2">
+                الفائزون
+              </h2>
               {selectedAward ? (
                 <>
-                  <form className="admin-form" onSubmit={handleWinnerSubmit}>
+                  <form
+                    className="grid gap-3.5 mt-4.5"
+                    onSubmit={handleWinnerSubmit}
+                  >
                     {Object.entries(winnerForm).map(([field, value]) => (
-                      <label key={field}>
+                      <label key={field} className="grid gap-2 text-muted">
                         <span>{field}</span>
                         <input
+                          className="w-full min-h-52 rounded-18 border border-input-border bg-white-92 px-4 outline-none transition-colors focus:border-brand-40 disabled:opacity-50"
                           value={value}
                           onChange={(event) =>
-                            setWinnerForm((current) => ({ ...current, [field]: event.target.value }))
+                            setWinnerForm((current) => ({
+                              ...current,
+                              [field]: event.target.value,
+                            }))
                           }
                           disabled={summary.read_only_mode}
                         />
                       </label>
                     ))}
-                    <button className="button-primary" disabled={summary.read_only_mode} type="submit">
+                    <button
+                      className="button-primary mt-2"
+                      disabled={summary.read_only_mode}
+                      type="submit"
+                    >
                       {editingWinnerId ? "تحديث الفائز" : "إضافة فائز"}
                     </button>
                   </form>
 
-                  <div className="admin-list">
+                  <div className="grid gap-4.5 mt-4">
                     {winners.map((winner) => (
-                      <article className="winner-card" key={winner.id}>
-                        <h3>{winner.winner_name}</h3>
-                        <p>{winner.summary || "لا توجد نبذة إضافية."}</p>
-                        <div className="card-actions">
+                      <article
+                        className="rounded-22 border border-border bg-white-72 p-4.5 grid gap-3.5"
+                        key={winner.id}
+                      >
+                        <h3 className="font-display font-semibold">
+                          {winner.winner_name}
+                        </h3>
+                        <p className="text-muted text-base leading-loose">
+                          {winner.summary || "لا توجد نبذة إضافية."}
+                        </p>
+                        <div className="flex items-center gap-2.5 flex-wrap justify-between">
                           <button
                             className="button-secondary"
                             onClick={() => {
@@ -335,7 +427,8 @@ export function AdminShell({ initialAwards, summary }: AdminShellProps) {
                               setWinnerForm({
                                 cycle_label: winner.cycle_label || "",
                                 winner_name: winner.winner_name,
-                                nationality_or_location: winner.nationality_or_location || "",
+                                nationality_or_location:
+                                  winner.nationality_or_location || "",
                                 summary: winner.summary || "",
                                 discipline: winner.discipline || "",
                               });
@@ -358,26 +451,39 @@ export function AdminShell({ initialAwards, summary }: AdminShellProps) {
                   </div>
                 </>
               ) : (
-                <p>اختر جائزة أولًا لإدارة الفائزين.</p>
+                <p className="text-muted text-base leading-loose mt-4">
+                  اختر جائزة أولًا لإدارة الفائزين.
+                </p>
               )}
             </article>
-          </section>
+          </div>
 
-          <section className="info-card">
-            <h2>إعادة الاستيراد من Excel</h2>
-            <div className="admin-import">
+          <section className="rounded-26 border border-border bg-surface p-6 shadow-card backdrop-blur-2xl">
+            <h2 className="text-clamp font-display font-bold mt-2">
+              إعادة الاستيراد من Excel
+            </h2>
+            <div className="flex items-center gap-2.5 flex-wrap justify-between mt-4">
               <input
+                className="w-full min-h-52 rounded-18 border border-input-border bg-white-92 px-4 py-2 outline-none transition-colors focus:border-brand-40"
                 accept=".xlsx"
-                onChange={(event) => setSelectedFile(event.target.files?.[0] || null)}
+                onChange={(event) =>
+                  setSelectedFile(event.target.files?.[0] || null)
+                }
                 type="file"
               />
-              <button className="button-primary" disabled={summary.read_only_mode || !selectedFile} onClick={handleImport} type="button">
+              <button
+                className="button-primary"
+                disabled={summary.read_only_mode || !selectedFile}
+                onClick={handleImport}
+                type="button"
+              >
                 تنفيذ الاستيراد
               </button>
             </div>
             {importSummary ? (
-              <p className="status-note">
-                تم استيراد {importSummary.awards_imported} جائزة و{importSummary.winners_imported} فائز مع تسجيل{" "}
+              <p className="rounded-18 px-4 py-3.5 bg-white-70 mt-4">
+                تم استيراد {importSummary.awards_imported} جائزة و
+                {importSummary.winners_imported} فائز مع تسجيل{" "}
                 {importSummary.issues_recorded} ملاحظات.
               </p>
             ) : null}
@@ -385,7 +491,9 @@ export function AdminShell({ initialAwards, summary }: AdminShellProps) {
         </>
       )}
 
-      {status ? <p className="status-note">{status}</p> : null}
+      {status ? (
+        <p className="rounded-18 px-4 py-3.5 bg-white-70">{status}</p>
+      ) : null}
     </div>
   );
 }

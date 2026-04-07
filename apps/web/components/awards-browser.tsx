@@ -16,7 +16,9 @@ export function AwardsBrowser({ awards }: AwardsBrowserProps) {
   const deferredDiscipline = useDeferredValue(discipline);
 
   const filteredAwards = awards.filter((award) => {
-    const countryMatch = deferredCountry ? (award.country || "").includes(deferredCountry) : true;
+    const countryMatch = deferredCountry
+      ? (award.country || "").includes(deferredCountry)
+      : true;
     const disciplineMatch = deferredDiscipline
       ? (award.discipline || "").includes(deferredDiscipline)
       : true;
@@ -25,22 +27,7 @@ export function AwardsBrowser({ awards }: AwardsBrowserProps) {
   });
 
   return (
-    <div className="page-stack">
-      <section className="filters-bar">
-        <label>
-          <span>تصفية حسب الدولة</span>
-          <input value={country} onChange={(event) => setCountry(event.target.value)} placeholder="مثال: الإمارات" />
-        </label>
-        <label>
-          <span>تصفية حسب التخصص</span>
-          <input
-            value={discipline}
-            onChange={(event) => setDiscipline(event.target.value)}
-            placeholder="مثال: علوم تربوية"
-          />
-        </label>
-      </section>
-
+    <div className="grid gap-8">
       <LandingSearch
         awards={filteredAwards}
         title="كل الجوائز"
@@ -49,4 +36,3 @@ export function AwardsBrowser({ awards }: AwardsBrowserProps) {
     </div>
   );
 }
-

@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 720" fill="none">
+  <defs>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Cairo:wght@700;800&amp;display=swap");
+    </style>
+
+    <linearGradient id="brandGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a33d2f"/>
+      <stop offset="100%" stop-color="#6b1c0e"/>
+    </linearGradient>
+
+    <linearGradient id="podiumShine" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#c44e3a"/>
+      <stop offset="45%" stop-color="#a33d2f"/>
+      <stop offset="100%" stop-color="#6b1c0e"/>
+    </linearGradient>
+
+    <radialGradient id="glowGrad" cx="50%" cy="44%" r="40%">
+      <stop offset="0%" stop-color="#e5b86f" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#e5b86f" stop-opacity="0"/>
+    </radialGradient>
+
+    <filter id="figSoft" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.2"/>
+    </filter>
+  </defs>
+
+  <!-- Ambient warm glow -->
+  <ellipse cx="300" cy="320" rx="220" ry="210" fill="url(#glowGrad)"/>
+
+  <!-- ── Ghost philosopher busts ── -->
+
+  <!-- Top center bust on pedestal -->
+  <g opacity="0.11" fill="#842716" filter="url(#figSoft)">
+    <ellipse cx="300" cy="88" rx="27" ry="31"/>
+    <path d="M284 108 Q300 148 316 108 Q300 130 284 108z"/>
+    <path d="M286 122 Q282 148 280 162 h40 Q318 148 314 122 Q300 130 286 122z"/>
+    <rect x="284" y="162" width="32" height="7" rx="2"/>
+    <rect x="278" y="168" width="44" height="5" rx="2"/>
+  </g>
+
+  <!-- Left philosopher -->
+  <g opacity="0.10" fill="#842716" filter="url(#figSoft)">
+    <ellipse cx="96" cy="205" rx="30" ry="34"/>
+    <path d="M78 228 Q96 272 114 228 Q96 252 78 228z"/>
+    <path d="M64 240 Q68 315 78 345 h36 Q124 315 128 240 Q112 252 96 246 Q80 252 64 240z"/>
+    <path d="M66 268 Q42 278 28 300 Q50 288 70 280z"/>
+  </g>
+
+  <!-- Left inner philosopher -->
+  <g opacity="0.12" fill="#842716" filter="url(#figSoft)">
+    <ellipse cx="160" cy="178" rx="25" ry="29"/>
+    <path d="M147 196 Q160 230 173 196 Q160 214 147 196z"/>
+    <path d="M134 208 Q138 272 146 298 h28 Q182 272 186 208 Q174 216 160 212 Q146 216 134 208z"/>
+  </g>
+
+  <!-- Right inner philosopher -->
+  <g opacity="0.12" fill="#842716" filter="url(#figSoft)">
+    <ellipse cx="440" cy="178" rx="25" ry="29"/>
+    <path d="M427 196 Q440 230 453 196 Q440 214 427 196z"/>
+    <path d="M414 208 Q418 272 426 298 h28 Q462 272 466 208 Q454 216 440 212 Q426 216 414 208z"/>
+  </g>
+
+  <!-- Right philosopher with quill -->
+  <g opacity="0.10" fill="#842716" filter="url(#figSoft)">
+    <ellipse cx="504" cy="205" rx="30" ry="34"/>
+    <path d="M486 228 Q504 272 522 228 Q504 252 486 228z"/>
+    <path d="M472 240 Q476 315 486 345 h36 Q532 315 536 240 Q520 252 504 246 Q488 252 472 240z"/>
+    <!-- quill arm -->
+    <path d="M534 262 Q558 250 574 232 Q552 252 532 264z"/>
+    <path d="M574 232 Q584 218 578 206 Q568 224 574 232z" opacity="0.8"/>
+  </g>
+
+  <!-- Bottom left small figure -->
+  <g opacity="0.08" fill="#842716" filter="url(#figSoft)">
+    <ellipse cx="172" cy="435" rx="21" ry="25"/>
+    <path d="M159 450 Q172 478 185 450 Q172 466 159 450z"/>
+    <path d="M148 460 Q152 510 160 532 h24 Q176 510 178 460 Q168 466 172 463 Q156 466 148 460z"/>
+  </g>
+
+  <!-- ── Logo Mark ── -->
+
+  <!-- Podium top bar -->
+  <rect x="234" y="155" width="132" height="36" rx="6" fill="url(#podiumShine)"/>
+  <!-- subtle highlight on top bar -->
+  <rect x="234" y="155" width="132" height="10" rx="6" fill="white" opacity="0.08"/>
+
+  <!-- Podium body trapezoid -->
+  <path d="M244 191 L226 360 h148 L356 191z" fill="url(#brandGrad)"/>
+  <!-- side shadow on trapezoid -->
+  <path d="M244 191 L226 360 h18 L258 191z" fill="#6b1c0e" opacity="0.25"/>
+  <path d="M356 191 L374 360 h-18 L342 191z" fill="#6b1c0e" opacity="0.2"/>
+
+  <!-- Door cutout -->
+  <rect x="281" y="268" width="38" height="52" rx="9" fill="white" opacity="0.18"/>
+  <!-- door arch -->
+  <path d="M281 288 Q300 268 319 288" stroke="white" stroke-width="1.8" fill="none" opacity="0.28"/>
+  <!-- door knob -->
+  <circle cx="313" cy="296" r="2.5" fill="white" opacity="0.3"/>
+
+  <!-- Vertical stem -->
+  <rect x="292" y="360" width="16" height="28" fill="#842716"/>
+  <!-- stem base line -->
+  <line x1="270" y1="388" x2="330" y2="388" stroke="#a33d2f" stroke-width="1.5" opacity="0.3"/>
+
+  <!-- ── Arabic text ── -->
+
+  <!-- "أَوْج" — main wordmark, large, Cairo bold -->
+  <text
+    x="300"
+    y="472"
+    text-anchor="middle"
+    font-family="'Cairo', sans-serif"
+    font-size="96"
+    font-weight="800"
+    fill="url(#brandGrad)"
+    direction="rtl"
+    unicode-bidi="embed"
+  >أَوْج</text>
+
+  <!-- Tagline -->
+  <text
+    x="300"
+    y="538"
+    text-anchor="middle"
+    font-family="'Cairo', sans-serif"
+    font-size="21"
+    font-weight="500"
+    fill="#a33d2f"
+    opacity="0.85"
+    direction="rtl"
+    unicode-bidi="embed"
+  >تجمع جميع قدواتك في مكان واحد</text>
+
+  <!-- ── Decorative rings ── -->
+  <circle cx="300" cy="305" r="150" stroke="#a33d2f" stroke-width="0.7" stroke-dasharray="3 9" opacity="0.18"/>
+  <circle cx="300" cy="305" r="194" stroke="#e5b86f" stroke-width="0.6" stroke-dasharray="2 14" opacity="0.22"/>
+
+  <!-- Accent dot top -->
+  <circle cx="300" cy="144" r="3.5" fill="#e5b86f" opacity="0.55"/>
+  <circle cx="300" cy="144" r="6" stroke="#e5b86f" stroke-width="0.8" opacity="0.2" fill="none"/>
+
+  <!-- Side dots on inner ring -->
+  <circle cx="150" cy="305" r="2.5" fill="#a33d2f" opacity="0.2"/>
+  <circle cx="450" cy="305" r="2.5" fill="#a33d2f" opacity="0.2"/>
+
+  <!-- Tagline flanking rules -->
+  <line x1="72" y1="538" x2="188" y2="538" stroke="#a33d2f" stroke-width="0.8" opacity="0.18"/>
+  <line x1="412" y1="538" x2="528" y2="538" stroke="#a33d2f" stroke-width="0.8" opacity="0.18"/>
+  <polygon points="72,538 76,534 80,538 76,542" fill="#a33d2f" opacity="0.2"/>
+  <polygon points="528,538 524,534 520,538 524,542" fill="#a33d2f" opacity="0.2"/>
+</svg>

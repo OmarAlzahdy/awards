@@ -7,6 +7,10 @@
     "lint:web": "npm --prefix apps/web run lint",
     "test:web": "npm --prefix apps/web run test",
     "test:api": "python -m pytest apps/api/tests"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.2.2",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^4.2.2"
   }
 }
-

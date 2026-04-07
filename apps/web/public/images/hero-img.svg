@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 720" fill="none">
+  <defs>
+    <!-- Brand red gradient -->
+    <linearGradient id="brandGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a33d2f"/>
+      <stop offset="100%" stop-color="#842716"/>
+    </linearGradient>
+    <!-- Subtle glow behind logo -->
+    <radialGradient id="glowGrad" cx="50%" cy="45%" r="42%">
+      <stop offset="0%" stop-color="#e5b86f" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#e5b86f" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Soft vignette for bust figures -->
+    <radialGradient id="figFade" cx="50%" cy="50%" r="50%">
+      <stop offset="40%" stop-color="#a33d2f" stop-opacity="0.13"/>
+      <stop offset="100%" stop-color="#a33d2f" stop-opacity="0"/>
+    </radialGradient>
+    <!-- clip for logo shape -->
+    <clipPath id="logoClip">
+      <path d="M260 160 h80 v30 h-80z M272 190 L256 340 h88 L328 190z"/>
+    </clipPath>
+    <!-- decorative ring -->
+    <filter id="softBlur">
+      <feGaussianBlur stdDeviation="2"/>
+    </filter>
+  </defs>
+
+  <!-- Ambient glow background -->
+  <ellipse cx="300" cy="330" rx="210" ry="200" fill="url(#glowGrad)"/>
+
+  <!-- ── Ghosted bust figures ── -->
+  <!-- Left far figure (seated philosopher) -->
+  <g opacity="0.10" fill="#842716">
+    <!-- head -->
+    <ellipse cx="90" cy="210" rx="28" ry="32"/>
+    <!-- beard -->
+    <path d="M74 230 Q90 270 106 230 Q90 250 74 230z"/>
+    <!-- body/toga -->
+    <path d="M60 242 Q65 310 75 340 h30 Q115 310 120 242 Q105 252 90 248 Q75 252 60 242z"/>
+    <!-- arm -->
+    <path d="M62 265 Q40 275 30 295 Q50 285 68 278z"/>
+  </g>
+
+  <!-- Left mid figure -->
+  <g opacity="0.13" fill="#842716">
+    <ellipse cx="148" cy="185" rx="24" ry="28"/>
+    <path d="M135 202 Q148 235 161 202 Q148 220 135 202z"/>
+    <path d="M122 212 Q126 272 134 296 h28 Q170 272 174 212 Q162 220 148 217 Q134 220 122 212z"/>
+  </g>
+
+  <!-- Top center figure (bust on pedestal) -->
+  <g opacity="0.12" fill="#842716">
+    <ellipse cx="300" cy="95" rx="26" ry="30"/>
+    <path d="M286 110 Q300 145 314 110 Q300 128 286 110z"/>
+    <!-- neck + shoulders hint -->
+    <path d="M288 125 Q285 148 282 158 h36 Q314 148 312 125 Q300 132 288 125z"/>
+    <!-- pedestal -->
+    <rect x="286" y="158" width="28" height="8" rx="2"/>
+    <rect x="280" y="164" width="40" height="5" rx="2"/>
+  </g>
+
+  <!-- Right mid figure -->
+  <g opacity="0.13" fill="#842716">
+    <ellipse cx="452" cy="185" rx="24" ry="28"/>
+    <path d="M439 202 Q452 235 465 202 Q452 220 439 202z"/>
+    <path d="M426 212 Q430 272 438 296 h28 Q474 272 478 212 Q466 220 452 217 Q438 220 426 212z"/>
+  </g>
+
+  <!-- Right far figure (writer with quill) -->
+  <g opacity="0.10" fill="#842716">
+    <ellipse cx="510" cy="210" rx="28" ry="32"/>
+    <path d="M494 230 Q510 270 526 230 Q510 250 494 230z"/>
+    <path d="M480 242 Q485 310 495 340 h30 Q535 310 540 242 Q525 252 510 248 Q495 252 480 242z"/>
+    <!-- quill arm -->
+    <path d="M538 265 Q558 255 572 240 Q554 258 536 268z"/>
+    <!-- quill feather -->
+    <path d="M572 240 Q580 228 576 218 Q568 232 572 240z" opacity="0.7"/>
+  </g>
+
+  <!-- Bottom left figure (smaller) -->
+  <g opacity="0.09" fill="#842716">
+    <ellipse cx="168" cy="430" rx="20" ry="24"/>
+    <path d="M156 444 Q168 470 180 444 Q168 460 156 444z"/>
+    <path d="M146 454 Q149 500 156 520 h24 Q172 500 174 454 Q164 460 168 457 Q152 460 146 454z"/>
+  </g>
+
+  <!-- ── Logo Mark ── -->
+  <!-- Podium / lectern top bar -->
+  <rect x="238" y="158" width="124" height="34" rx="5" fill="url(#brandGrad)"/>
+
+  <!-- Podium body (trapezoid) -->
+  <path d="M248 192 L232 355 h136 L252 192z" fill="url(#brandGrad)"/>
+
+  <!-- Door/arch cutout on podium -->
+  <rect x="283" y="270" width="34" height="46" rx="8" fill="white" opacity="0.22"/>
+  <path d="M283 288 Q300 274 317 288" stroke="white" stroke-width="1.5" fill="none" opacity="0.3"/>
+
+  <!-- Vertical stem below podium -->
+  <rect x="293" y="355" width="14" height="30" fill="#842716"/>
+
+  <!-- ── Arabic calligraphy "أوج" ── -->
+  <!-- Rendered as stylized paths approximating the word mark -->
+  <!-- Using text as fallback with Google-loadable Arabic font hint -->
+  <text
+    x="300"
+    y="460"
+    text-anchor="middle"
+    font-family="'Scheherazade New', 'Amiri', 'Noto Naskh Arabic', Georgia, serif"
+    font-size="88"
+    font-weight="700"
+    fill="url(#brandGrad)"
+    letter-spacing="-2"
+  >أوج</text>
+
+  <!-- Tagline arc approximation (straight for SVG simplicity) -->
+  <text
+    x="300"
+    y="544"
+    text-anchor="middle"
+    font-family="'Scheherazade New', 'Amiri', 'Noto Naskh Arabic', Georgia, serif"
+    font-size="22"
+    fill="#a33d2f"
+    letter-spacing="1"
+  >تجمع جميع قدواتك في مكان واحد</text>
+
+  <!-- ── Decorative elements ── -->
+  <!-- Thin accent ring around logo center -->
+  <circle cx="300" cy="310" r="148" stroke="#a33d2f" stroke-width="0.6" stroke-dasharray="4 8" opacity="0.2"/>
+  <!-- Outer ring -->
+  <circle cx="300" cy="310" r="190" stroke="#e5b86f" stroke-width="0.5" stroke-dasharray="2 12" opacity="0.25"/>
+
+  <!-- Dot ornaments -->
+  <circle cx="300" cy="148" r="3.5" fill="#e5b86f" opacity="0.5"/>
+  <circle cx="145" cy="355" r="2.5" fill="#a33d2f" opacity="0.18"/>
+  <circle cx="455" cy="355" r="2.5" fill="#a33d2f" opacity="0.18"/>
+
+  <!-- Thin horizontal rules flanking tagline -->
+  <line x1="80" y1="544" x2="188" y2="544" stroke="#a33d2f" stroke-width="0.7" opacity="0.2"/>
+  <line x1="412" y1="544" x2="520" y2="544" stroke="#a33d2f" stroke-width="0.7" opacity="0.2"/>
+
+  <!-- Small diamond ornaments at line ends -->
+  <polygon points="80,544 84,540 88,544 84,548" fill="#a33d2f" opacity="0.2"/>
+  <polygon points="520,544 516,540 512,544 516,548" fill="#a33d2f" opacity="0.2"/>
+</svg>
