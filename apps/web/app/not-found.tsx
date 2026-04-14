@@ -7,14 +7,14 @@ export default function NotFound() {
         <span className="text-brand font-display inline-block text-sm font-medium tracking-widest">
           404
         </span>
-        <h1 className="text-clamp font-display font-bold mt-2">
+        <h1 className="text-clamp  font-display font-bold mt-2">
           الصفحة المطلوبة غير موجودة.
         </h1>
         <p className="text-muted text-base leading-loose mt-2">
           قد تكون الجائزة غير متاحة في قاعدة البيانات الحالية أو أن الرابط غير
           صحيح.
         </p>
-        <Link className="button-primary mt-6" href="/">
+        <Link className="button-primary text-white! mt-" href="/">
           العودة إلى الرئيسية
         </Link>
       </section>

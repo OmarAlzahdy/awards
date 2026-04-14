@@ -14,7 +14,7 @@ export function Navbar() {
   const pathname = usePathname();
 
   return (
-    <header className="flex items-center justify-between gap-3.5 bg-brand  ">
+    <header className="flex items-center justify-between gap-3.5 bg-brand -my-4 overflow-hidden  ">
       <Link className="inline-flex items-center border-0 gap-3.5 " href="/">
         <div className="relative w-28 h-28">
           <Image
@@ -25,10 +25,7 @@ export function Navbar() {
           />
         </div>
         <span className="flex flex-col gap-1">
-          <strong className="font-display tracking-widest text-white text-3xl">
-            أَوْج
-          </strong>
-          <small className="text-white/70">
+          <small className="text-white/90 ">
             منصة عربية للجوائز والحاصلين عليها
           </small>
         </span>

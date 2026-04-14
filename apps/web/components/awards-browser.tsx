@@ -27,7 +27,7 @@ export function AwardsBrowser({ awards }: AwardsBrowserProps) {
   });
 
   return (
-    <div className="grid gap-8">
+    <div className="grid gap-8 px-4">
       <LandingSearch
         awards={filteredAwards}
         title="كل الجوائز"
