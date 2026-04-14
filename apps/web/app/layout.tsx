@@ -34,14 +34,14 @@ export default function RootLayout({
       <body className="text-text font-body min-h-screen">
         <div className="">
           <Navbar />
-          <main className="w-full max-w-[95%] mx-auto ">{children}</main>
+          <main className="w-full">{children}</main>
           <footer className="mt-12 lg:mt-16 bg-brand pt-12 lg:pt-16 px-4 lg:px-8">
             <div className="max-w-[95%] mx-auto">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 mb-12 lg:mb-16">
                 <div className="grid gap-6">
                   <div>
                     <h3 className="text-2xl lg:text-3xl font-display font-bold text-white mb-3">
-                      أوج
+                      أَوْج
                     </h3>
                     <p className="text-base text-white-72 leading-relaxed max-w-lg">
                       منصة عربية شاملة تجمع الجوائز العلمية والإنسانية في مكان

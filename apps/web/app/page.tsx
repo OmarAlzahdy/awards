@@ -5,6 +5,7 @@ import { StorySection } from "@/components/story-section";
 import { StatisticsSection } from "@/components/statistics-section";
 import { WhyPlatformSection } from "@/components/why-platform-section";
 import { EgyptianWinnersSection } from "@/components/egyptian-winners-section";
+import { SectionWrapper } from "@/components/section-wrapper";
 
 export const dynamic = "force-dynamic";
 
@@ -18,13 +19,21 @@ export default async function Home() {
     <div className="grid gap-6">
       <HeroSection />
 
-      <EgyptianWinnersSection />
+      <SectionWrapper>
+        <EgyptianWinnersSection />
+      </SectionWrapper>
 
-      <StatisticsSection summary={summary} />
+      <SectionWrapper>
+        <StatisticsSection summary={summary} />
+      </SectionWrapper>
 
-      <WhyPlatformSection />
+      <SectionWrapper>
+        <WhyPlatformSection />
+      </SectionWrapper>
 
-      <StorySection />
+      <SectionWrapper>
+        <StorySection />
+      </SectionWrapper>
     </div>
   );
 }
