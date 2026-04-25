@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useDeferredValue, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
 import type { Award } from "@/lib/types";
@@ -44,7 +44,7 @@ export function LandingSearch({
       )
     : awards;
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -55,7 +55,7 @@ export function LandingSearch({
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
@@ -67,7 +67,7 @@ export function LandingSearch({
     },
   };
 
-  const hoverVariants = {
+  const hoverVariants: Variants = {
     hover: {
       y: -4,
       boxShadow: "0 24px 48px rgba(0, 0, 0, 0.12)",
