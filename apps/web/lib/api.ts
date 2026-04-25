@@ -1,8 +1,6 @@
 import type {
   Award,
   AwardsResponse,
-  Dataset,
-  FeaturedWinner,
   ImportSummary,
   LoginResponse,
   StatsSummary,
@@ -98,16 +96,40 @@ export async function fetchAwardWinners(awardId: number): Promise<Winner[]> {
   }
 }
 
-export async function fetchEgyptianFeaturedWinners(
-  limit: number = 6,
-): Promise<FeaturedWinner[]> {
-  const search = new URLSearchParams();
-  search.append("nationality", "\u0645\u0635\u0631\u064a");
-  search.append("nationality", "\u0645\u0635\u0631\u064a\u0629");
-  search.set("limit", String(limit));
-
+export async function fetchFeaturedWinnersByCountry(
+  country: string,
+  limit: number = 12,
+): Promise<Array<Winner & { awardName: string; awardId: number }>> {
   try {
-    return await apiFetch<FeaturedWinner[]>(`/v1/winners/featured?${search}`);
+    // Fetch a larger set of ALL awards to find winners from the specified country
+    const awards = await fetchAwards({ pageSize: 100 });
+    const featuredWinners: Array<
+      Winner & { awardName: string; awardId: number }
+    > = [];
+
+    // Fetch winners for each award and collect those from the target country
+    for (const award of awards.items) {
+      if (featuredWinners.length >= limit) break;
+      const winners = await fetchAwardWinners(award.id);
+      for (const winner of winners) {
+        if (featuredWinners.length >= limit) break;
+        // Check if winner's nationality/location matches the country search
+        if (
+          winner.nationality_or_location &&
+          winner.nationality_or_location
+            .toLowerCase()
+            .includes(country.toLowerCase())
+        ) {
+          featuredWinners.push({
+            ...winner,
+            awardName: award.name,
+            awardId: award.id,
+          });
+        }
+      }
+    }
+
+    return featuredWinners;
   } catch {
     return [];
   }
@@ -213,20 +235,4 @@ export async function importWorkbook(
     },
   });
   return parseJson<ImportSummary>(response);
-}
-
-export async function fetchDatasets(token: string): Promise<Dataset[]> {
-  return apiFetch<Dataset[]>("/v1/admin/datasets", {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-}
-
-export async function activateDataset(
-  token: string,
-  datasetId: number,
-): Promise<Dataset> {
-  return apiFetch<Dataset>(`/v1/admin/datasets/${datasetId}/activate`, {
-    method: "POST",
-    headers: { Authorization: `Bearer ${token}` },
-  });
 }

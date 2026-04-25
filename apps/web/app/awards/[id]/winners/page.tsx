@@ -22,6 +22,7 @@ export default async function AwardWinnersPage({
   }
 
   return (
+    <div className="px-4">
     <div className="grid gap-12 lg:gap-16">
       {/* Header Section */}
       <section className="grid gap-6 pt-12 lg:pt-16">

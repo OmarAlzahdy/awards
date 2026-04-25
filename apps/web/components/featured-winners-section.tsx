@@ -45,7 +45,7 @@ export function FeaturedWinnersSection({
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as const },
+      transition: { duration: 0.6, ease: "easeOut" },
     },
   };
 
@@ -56,7 +56,7 @@ export function FeaturedWinnersSection({
   return (
     <section
       ref={ref}
-      className="py-12 lg:py-20 px-4 lg:px-8 bg-gradient-to-br from-brand-92 via-white-96 to-brand-88"
+      className="py-12 lg:py-20 px-4 lg:px-8 bg-gradient-to-br  from-brand-92 via-white-96 to-brand-88"
     >
       <motion.div
         initial={{ opacity: 0, y: 20 }}

@@ -28,11 +28,6 @@ export type Winner = {
   updated_at: string;
 };
 
-export type FeaturedWinner = Winner & {
-  award_name: string;
-  award_discipline: string | null;
-};
-
 export type AwardsResponse = {
   items: Award[];
   page: number;
@@ -64,11 +59,3 @@ export type ImportSummary = {
   report_path: string;
 };
 
-export type Dataset = {
-  id: number;
-  label: string;
-  is_active: boolean;
-  imported_at: string;
-  awards_count: number;
-  winners_count: number;
-};

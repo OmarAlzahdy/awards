@@ -7,15 +7,23 @@ type AwardDetailPageProps = {
   params: Promise<{ id: string }>;
 };
 
-export default async function AwardDetailPage({ params }: AwardDetailPageProps) {
+export default async function AwardDetailPage({
+  params,
+}: AwardDetailPageProps) {
   const { id } = await params;
   const awardId = Number(id);
-  const [award, winners] = await Promise.all([fetchAward(awardId), fetchAwardWinners(awardId)]);
+  const [award, winners] = await Promise.all([
+    fetchAward(awardId),
+    fetchAwardWinners(awardId),
+  ]);
 
   if (!award) {
     notFound();
   }
 
-  return <AwardDetailPanel award={award} winners={winners} />;
+  return (
+    <div className="px-4">
+      <AwardDetailPanel award={award} winners={winners} />
+    </div>
+  );
 }
-

@@ -55,11 +55,7 @@ const StatisticCard = ({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-      transition={{
-        delay: delay * 0.1,
-        duration: 0.6,
-        ease: [0.16, 1, 0.3, 1] as const,
-      }}
+      transition={{ delay: delay * 0.1, duration: 0.6, ease: "easeOut" }}
       className="group relative"
     >
       <div className="relative p-6 lg:p-8 border border-border bg-surface backdrop-blur-sm hover:bg-white-55 transition-all duration-300">
@@ -75,7 +71,7 @@ const StatisticCard = ({
           transition={{
             delay: delay * 0.1 + 0.2,
             duration: 0.5,
-            ease: [0.16, 1, 0.3, 1] as const,
+            ease: "easeOut",
           }}
         >
           {displayValue.toLocaleString("ar-SA")}

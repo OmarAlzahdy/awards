@@ -7,7 +7,7 @@ export default async function AwardsPage() {
   const awards = await fetchAwards({ pageSize: 100 });
 
   return (
-    <div className="grid gap-12 lg:gap-16">
+    <div className="grid gap-12 lg:gap-16 px-4">
       <section className="grid gap-6 pt-12 lg:pt-16">
         <div>
           <span className="text-brand font-display text-xs font-semibold tracking-widest uppercase block mb-3">

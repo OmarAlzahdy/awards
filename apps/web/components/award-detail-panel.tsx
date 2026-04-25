@@ -9,7 +9,7 @@ type AwardDetailPanelProps = {
 
 export function AwardDetailPanel({ award, winners }: AwardDetailPanelProps) {
   return (
-    <div className="grid gap-12 lg:gap-16">
+    <div className="grid gap-12 lg:gap-16 ">
       {/* Header Section */}
       <section className="grid gap-6 pt-12 lg:pt-16">
         <div>
@@ -30,7 +30,7 @@ export function AwardDetailPanel({ award, winners }: AwardDetailPanelProps) {
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 pt-2">
               <Link
-                className="px-6 py-2.5 text-sm font-semibold text-white bg-brand hover:bg-brand-strong transition-colors text-center"
+                className="px-6 py-2.5 text-sm font-semibold text-white! bg-brand hover:bg-brand-strong transition-colors text-center"
                 href={`/awards/${award.id}/winners`}
               >
                 صفحة الفائزين
