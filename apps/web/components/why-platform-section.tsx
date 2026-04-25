@@ -9,7 +9,7 @@ import {
   TrendingUp,
   Lightbulb,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
 const icons = [Zap, Shield, Search, Users, TrendingUp, Lightbulb];
@@ -20,7 +20,7 @@ export function WhyPlatformSection() {
     triggerOnce: true,
   });
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -31,7 +31,7 @@ export function WhyPlatformSection() {
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,

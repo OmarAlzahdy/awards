@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { egyptianWinners } from "@/lib/featured-winners";
 import { Users, Award, BookOpen } from "lucide-react";
@@ -14,7 +14,7 @@ export function EgyptianWinnersSection() {
   // Show only first 6 winners
   const featuredWinners = egyptianWinners.slice(0, 6);
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -25,7 +25,7 @@ export function EgyptianWinnersSection() {
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 20, scale: 0.95 },
     visible: {
       opacity: 1,
@@ -38,7 +38,7 @@ export function EgyptianWinnersSection() {
     },
   };
 
-  const hoverVariants = {
+  const hoverVariants: Variants = {
     hover: {
       y: -4,
       boxShadow: "0 24px 48px rgba(0, 0, 0, 0.12)",
