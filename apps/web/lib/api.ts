@@ -1,6 +1,7 @@
 import type {
   Award,
   AwardsResponse,
+  Dataset,
   FeaturedWinner,
   ImportSummary,
   LoginResponse,
@@ -212,4 +213,20 @@ export async function importWorkbook(
     },
   });
   return parseJson<ImportSummary>(response);
+}
+
+export async function fetchDatasets(token: string): Promise<Dataset[]> {
+  return apiFetch<Dataset[]>("/v1/admin/datasets", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export async function activateDataset(
+  token: string,
+  datasetId: number,
+): Promise<Dataset> {
+  return apiFetch<Dataset>(`/v1/admin/datasets/${datasetId}/activate`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+  });
 }

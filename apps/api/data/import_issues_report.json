@@ -1,69 +1,8 @@
 {
-  "workbook": "D:\\awards\\Data_Collection (3)2.xlsx",
-  "awards_imported": 61,
-  "winners_imported": 437,
-  "issues_recorded": 10,
+  "workbook": "/home/user/awards/019dc392-31.xlsx",
+  "awards_imported": 88,
+  "winners_imported": 384,
+  "issues_recorded": 0,
   "ignored_blank_columns": 18,
-  "issues": [
-    {
-      "source_sheet": "الجوائز.الهيئات",
-      "source_key": "40",
-      "issue_type": "orphan_website_row",
-      "raw_row_json": "{\"awar_id\": \"40\", \"الموقع الإلكتروني\": \"https://www.kfas.org/ar/Offerings/Scientist-or-Researcher/Prizes/Kuwait-Prize\"}"
-    },
-    {
-      "source_sheet": "الهيئات",
-      "source_key": "40",
-      "issue_type": "orphan_authority_row",
-      "raw_row_json": "{\"awar id\": \"40\", \"اسم الهيئه\": \"مؤسسة الكويت للتقدم العلمي - KFAS\", \"نوع الهيئة\": \"مؤسسة علمية وطنية مستقلة\"}"
-    },
-    {
-      "source_sheet": "الهيئات",
-      "source_key": "63",
-      "issue_type": "orphan_authority_row",
-      "raw_row_json": "{\"awar id\": \"63\", \"اسم الهيئه\": \"المركز العربي للأدب الجغرافي - \\\"ارتياد الآفاق\\\".\", \"نوع الهيئة\": \"المركز العربي للأدب الجغرافي - \\\"ارتياد الآفاق\\\".\"}"
-    },
-    {
-      "source_sheet": "الهيئات",
-      "source_key": "64",
-      "issue_type": "orphan_authority_row",
-      "raw_row_json": "{\"awar id\": \"64\", \"اسم الهيئه\": \"لجنة مبادرة نوابغ العرب\", \"نوع الهيئة\": \"\"}"
-    },
-    {
-      "source_sheet": "الهيئات",
-      "source_key": "65",
-      "issue_type": "orphan_authority_row",
-      "raw_row_json": "{\"awar id\": \"65\", \"اسم الهيئه\": \"الجمعيات الجغرافية الوطنية (مثل الجمعية الجغرافية السعودية) بالتعاون مع شركة Esri.\", \"نوع الهيئة\": \"الجمعيات الجغرافية الوطنية\"}"
-    },
-    {
-      "source_sheet": "الهيئات",
-      "source_key": "66",
-      "issue_type": "orphan_authority_row",
-      "raw_row_json": "{\"awar id\": \"66\", \"اسم الهيئه\": \"الجمعية الجغرافية الروسية\", \"نوع الهيئة\": \"الجمعية الجغرافية الروسية\"}"
-    },
-    {
-      "source_sheet": "الهيئات",
-      "source_key": "67",
-      "issue_type": "orphan_authority_row",
-      "raw_row_json": "{\"awar id\": \"67\", \"اسم الهيئه\": \"وزارة التربية والتعليم والتعليم العالي (بالتعاون مع الديوان الأميري)\", \"نوع الهيئة\": \"هيئة حكومية سيادية\"}"
-    },
-    {
-      "source_sheet": "الحاصلين على الجوائز",
-      "source_key": "40",
-      "issue_type": "orphan_winner_row",
-      "raw_row_json": "{\"awar_id\": \"40\", \"السنة / الدورة\": \"2025\", \"الاسم\": \"د. محجوبة قاوقو\", \"الجنسية / المقر\": \"المغرب\", \"نبذة\": \"\", \"اسم التخصص\": \"أنثروبولوجيا تاريخية\"}"
-    },
-    {
-      "source_sheet": "الحاصلين على الجوائز",
-      "source_key": "40",
-      "issue_type": "orphan_winner_row",
-      "raw_row_json": "{\"awar_id\": \"40\", \"السنة / الدورة\": \"2025\", \"الاسم\": \"نديم منصوري\", \"الجنسية / المقر\": \"لبنان\", \"نبذة\": \"\", \"اسم التخصص\": \"سوسيولوجيا\"}"
-    },
-    {
-      "source_sheet": "الحاصلين على الجوائز",
-      "source_key": "40",
-      "issue_type": "orphan_winner_row",
-      "raw_row_json": "{\"awar_id\": \"40\", \"السنة / الدورة\": \"2025\", \"الاسم\": \"د. يوسف زدام\", \"الجنسية / المقر\": \"الجزائر\", \"نبذة\": \"\", \"اسم التخصص\": \"التاريخ\"}"
-    }
-  ]
+  "issues": []
 }

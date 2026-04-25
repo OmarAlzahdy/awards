@@ -105,3 +105,14 @@ class ImportSummary(BaseModel):
     issues_recorded: int
     ignored_blank_columns: int
     report_path: str
+
+
+class DatasetRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    label: str
+    is_active: bool
+    imported_at: datetime
+    awards_count: int
+    winners_count: int

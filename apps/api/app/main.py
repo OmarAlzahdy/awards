@@ -21,13 +21,14 @@ from .dependencies import (
     require_writable,
     verify_admin_credentials,
 )
-from .importer import ensure_seed_data, import_workbook, normalize_search_text
-from .models import Award, Winner
+from .importer import ensure_seed_data, import_workbook, normalize_search_text, restore_dataset
+from .models import Award, Dataset, Winner
 from .schemas import (
     AwardCreate,
     AwardRead,
     AwardsListResponse,
     AwardUpdate,
+    DatasetRead,
     FeaturedWinnerRead,
     ImportSummary,
     LoginRequest,
@@ -414,6 +415,34 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         session.delete(winner)
         session.commit()
         return {"ok": True, "deleted_winner_id": winner_id}
+
+    @app.get(
+        "/v1/admin/datasets",
+        response_model=list[DatasetRead],
+        dependencies=[Depends(require_admin)],
+    )
+    def list_datasets(session: Session = Depends(get_session)) -> list[DatasetRead]:
+        datasets = session.scalars(
+            select(Dataset).order_by(Dataset.imported_at.desc())
+        ).all()
+        return [DatasetRead.model_validate(d) for d in datasets]
+
+    @app.post(
+        "/v1/admin/datasets/{dataset_id}/activate",
+        response_model=DatasetRead,
+        dependencies=[Depends(require_admin), Depends(require_writable)],
+    )
+    def activate_dataset(
+        dataset_id: int,
+        session: Session = Depends(get_session),
+    ) -> DatasetRead:
+        dataset = session.get(Dataset, dataset_id)
+        if dataset is None:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="dataset_not_found")
+        restore_dataset(session, dataset)
+        session.commit()
+        session.refresh(dataset)
+        return DatasetRead.model_validate(dataset)
 
     return app
 
