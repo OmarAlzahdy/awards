@@ -55,7 +55,7 @@ export default async function AwardWinnersPage({
             <p className="text-muted">لا يوجد فائزون مسجلون لهذه الجائزة.</p>
           </div>
         ) : (
-          winners.map((winner, index) => (
+          winners.map((winner) => (
             <article
               key={winner.id}
               className="group relative p-6 lg:p-8 border-2 border-brand bg-white overflow-hidden hover:shadow-lg transition-all"
@@ -112,6 +112,7 @@ export default async function AwardWinnersPage({
             </article>
           ))
         )}
+      </div>
       </div>
     </div>
   );
