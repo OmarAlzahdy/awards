@@ -3,16 +3,18 @@
 import { useEffect, useState } from "react";
 
 import {
+  activateDataset,
   deleteAward,
   deleteWinner,
   fetchAwardWinners,
   fetchAwards,
+  fetchDatasets,
   importWorkbook,
   loginAdmin,
   saveAward,
   saveWinner,
 } from "@/lib/api";
-import type { Award, ImportSummary, StatsSummary, Winner } from "@/lib/types";
+import type { Award, Dataset, ImportSummary, StatsSummary, Winner } from "@/lib/types";
 
 const STORAGE_KEY = "awards-admin-token";
 
@@ -67,6 +69,8 @@ export function AdminShell({ initialAwards, summary }: AdminShellProps) {
     null,
   );
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [datasets, setDatasets] = useState<Dataset[]>([]);
+  const [datasetsLoaded, setDatasetsLoaded] = useState(false);
 
   const selectedAward =
     awards.find((award) => award.id === selectedAwardId) || null;
@@ -75,6 +79,7 @@ export function AdminShell({ initialAwards, summary }: AdminShellProps) {
     const storedToken = window.localStorage.getItem(STORAGE_KEY);
     if (storedToken) {
       setToken(storedToken);
+      refreshDatasets(storedToken);
     }
   }, []);
 
@@ -110,6 +115,16 @@ export function AdminShell({ initialAwards, summary }: AdminShellProps) {
     setAwards(response.items);
   }
 
+  async function refreshDatasets(tok: string) {
+    try {
+      const data = await fetchDatasets(tok);
+      setDatasets(data);
+      setDatasetsLoaded(true);
+    } catch {
+      setDatasetsLoaded(true);
+    }
+  }
+
   async function handleLogin(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoginState((current) => ({ ...current, loading: true, error: "" }));
@@ -120,6 +135,7 @@ export function AdminShell({ initialAwards, summary }: AdminShellProps) {
       );
       window.localStorage.setItem(STORAGE_KEY, response.token);
       setToken(response.token);
+      refreshDatasets(response.token);
       setStatus("تم تسجيل الدخول بنجاح.");
     } catch (error) {
       setLoginState((current) => ({
@@ -218,6 +234,7 @@ export function AdminShell({ initialAwards, summary }: AdminShellProps) {
     const response = await importWorkbook(token, selectedFile);
     setImportSummary(response);
     await refreshAwards();
+    await refreshDatasets(token);
     setStatus("تمت إعادة استيراد الملف بنجاح.");
   }
 
@@ -487,6 +504,67 @@ export function AdminShell({ initialAwards, summary }: AdminShellProps) {
                 {importSummary.issues_recorded} ملاحظات.
               </p>
             ) : null}
+          </section>
+
+          <section className="rounded-26 border border-border bg-surface p-6 shadow-card backdrop-blur-2xl">
+            <h2 className="text-clamp font-display font-bold mt-2">
+              إدارة نسخ البيانات
+            </h2>
+            <p className="text-muted text-base leading-loose mt-1">
+              كل نسخة تمثل مجموعة بيانات مستقلة. اختر نسخة وانقر «تفعيل» لاستعادة بياناتها.
+            </p>
+            {!datasetsLoaded ? (
+              <p className="text-muted mt-4">جارٍ التحميل…</p>
+            ) : datasets.length === 0 ? (
+              <p className="text-muted mt-4">لا توجد نسخ محفوظة بعد.</p>
+            ) : (
+              <div className="grid gap-3 mt-4">
+                {datasets.map((dataset) => (
+                  <article
+                    key={dataset.id}
+                    className={`rounded-22 border p-4 grid gap-2 ${
+                      dataset.is_active
+                        ? "border-brand-40 bg-brand-12"
+                        : "border-border bg-white-72"
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-3 flex-wrap">
+                      <div className="grid gap-1">
+                        <h3 className="font-display font-semibold flex items-center gap-2">
+                          {dataset.label}
+                          {dataset.is_active && (
+                            <span className="text-xs text-brand-strong bg-brand-12 border border-brand-40 rounded-full px-2 py-0.5">
+                              نشطة
+                            </span>
+                          )}
+                        </h3>
+                        <p className="text-muted text-sm">
+                          {dataset.awards_count} جائزة · {dataset.winners_count} فائز
+                        </p>
+                        <p className="text-muted text-xs">
+                          {new Date(dataset.imported_at).toLocaleString("ar-EG")}
+                        </p>
+                      </div>
+                      {!dataset.is_active && (
+                        <button
+                          className="button-secondary"
+                          disabled={summary.read_only_mode}
+                          onClick={async () => {
+                            await activateDataset(token, dataset.id);
+                            await refreshAwards();
+                            await refreshDatasets(token);
+                            setStatus(`تم تفعيل نسخة البيانات: ${dataset.label}`);
+                          }}
+                          type="button"
+                        >
+                          تفعيل
+                        </button>
+                      )}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            )}
           </section>
         </>
       )}

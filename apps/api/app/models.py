@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 
-from sqlalchemy import DateTime, ForeignKey, Integer, String, Text
+from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
 
@@ -55,6 +55,19 @@ class Winner(TimestampMixin, Base):
     discipline: Mapped[str | None] = mapped_column(String(255))
 
     award: Mapped[Award] = relationship(back_populates="winners")
+
+
+class Dataset(Base):
+    __tablename__ = "datasets"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    label: Mapped[str] = mapped_column(String(500))
+    is_active: Mapped[bool] = mapped_column(Boolean, default=False)
+    imported_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+    awards_count: Mapped[int] = mapped_column(Integer, default=0)
+    winners_count: Mapped[int] = mapped_column(Integer, default=0)
+    awards_json: Mapped[str] = mapped_column(Text)
+    winners_json: Mapped[str] = mapped_column(Text)
 
 
 class ImportIssue(Base):

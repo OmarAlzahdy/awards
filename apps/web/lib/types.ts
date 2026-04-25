@@ -63,3 +63,12 @@ export type ImportSummary = {
   ignored_blank_columns: number;
   report_path: string;
 };
+
+export type Dataset = {
+  id: number;
+  label: string;
+  is_active: boolean;
+  imported_at: string;
+  awards_count: number;
+  winners_count: number;
+};
